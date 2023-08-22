@@ -1,7 +1,7 @@
 {
   "name": "d3b-histoqC",
   "label": "d3b-histoqC",
-  "description": "This package provides histogram matching for image pre-processing.",
+  "description": "This package provides quality control tool for digital pathology slide.",
   "author": "D3b-TIRU",
   "maintainer": "D3b-TIRU <flywheel@d3b.center>",
   "source": "https://github.com/d3b-center/fw-histoqc", 
