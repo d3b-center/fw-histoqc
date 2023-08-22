@@ -1,12 +1,9 @@
 # Histoqc
 
 HistoQC is an open-source quality control tool for digital pathology slides.
+
 #**Requirements**
-
-Tested with Python 3.7 and 3.8 Note: the DockerFile installs Python 3.8, so if your goal is reproducibility you may want to take this into account
-
-Requires:
-
+Tested with Python 3.7 and 3.8 Note: the DockerFile installs Python 3.8.
 openslide
 And the following additional python package:
 python-openslide
@@ -15,15 +12,19 @@ numpy
 scipy
 skimage
 sklearn
-pytest (optional)
-You can likely install the python requirements using something like (note python 3+ requirement):
 
-pip3 install -r requirements.txt
 
-The library versions have been pegged to the current validated ones. Later versions are likely to work but may not allow for cross-site/version reproducibility (typically a bad thing in quality control).
+**Required inputs:**
+Input image
 
-Openslide binaries will have to be installed separately as per individual o/s instructions
+**Citation**
+If you find this software useful, please drop me a line and/or consider citing it:
 
-The most basic docker image can be created with the included (7-line) Dockerfile.
+"HistoQC: An Open-Source Quality Control Tool for Digital Pathology Slides", Janowczyk A., Zuo R., Gilmore H., Feldman M., Madabhushi A., JCO Clinical Cancer Informatics, 2019
 
-**Basic Usage**
+Manuscript available here
+
+“Assessment of a computerized quantitative quality control tool for kidney whole slide image biopsies”, Chen Y., Zee J., Smith A., Jayapandian C., Hodgin J., Howell D., Palmer M., Thomas D., Cassol C., Farris A., Perkinson K., Madabhushi A., Barisoni L., Janowczyk A., Journal of Pathology, 2020
+
+Manuscript available here
+
