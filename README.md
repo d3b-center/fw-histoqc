@@ -3,6 +3,7 @@
 HistoQC is an open-source quality control tool for digital pathology slides.
 
 #**Requirements**:
+
 openslide
 
 python-openslide
