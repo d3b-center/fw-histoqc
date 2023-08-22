@@ -1,0 +1,44 @@
+{
+  "name": "d3b-histoqC",
+  "label": "d3b-histoqC",
+  "description": "This package provides histogram matching for image pre-processing.",
+  "author": "D3b-TIRU",
+  "maintainer": "D3b-TIRU <flywheel@d3b.center>",
+  "source": "https://github.com/d3b-center/fw-histoqc", 
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "custom": {
+    "gear-builder": {
+      "category": "analysis",
+      "image": "chop.flywheel.io/histoqc:0.0.1"
+
+   
+    },
+    "flywheel": {
+      "suite": "histoqc"
+    }
+  },
+  "inputs": {
+    "input_image": {
+      "base": "file",
+      "description": "Input image (.svs).",
+      "optional": false,
+      "type": {
+        "enum": [
+          ".svs"
+        ]
+      }
+    }
+    },
+
+ "environment":{
+    "HOME":"/root",
+    "HOSTNAME":"0b633f948575",
+    "MESA_GL_VERSION_OVERRIDE":"3.2",
+    "PATH":"/opt/HistoQC/venv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "QT_GRAPHICSSYSTEM":"native",
+    "QT_X11_NO_MITSHM":"1",
+    "SHLVL":"1",
+    "TERM":"xterm"
+  }
+}
