@@ -26,6 +26,7 @@ RUN apt-get update \
         libopenslide0 \
         libtk8.6 \
         procps \
+        zip \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/HistoQC
 COPY --from=builder /opt/HistoQC/ .
