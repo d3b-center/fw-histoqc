@@ -1,2 +1,26 @@
 
+# Mac stuff
 .DS_Store
+
+# Python stuff
+*.egg-info
+.coverage
+__pycache__
+coverage.xml
+cov.xml
+dist
+junit.xml
+.python-version
+
+# Editor specific stuff
+.vscode
+.idea/
+
+# Gear stuff
+config.json
+config.json.back
+.input_map.json
+
+# Misc
+*.svs
+histoqc/__pycache__/
