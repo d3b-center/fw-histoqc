@@ -14,6 +14,7 @@ echo -e "$CONTAINER  Initiated"
 FLYWHEEL_BASE=/flywheel/v0
 OUTPUT_DIR=$FLYWHEEL_BASE/output
 input_im_DIR=$FLYWHEEL_BASE/input/input_image
+config_DIR=$FLYWHEEL_BASE/input/config
 MANIFEST=$FLYWHEEL_BASE/manifest.json
 CONFIG_FILE=$FLYWHEEL_BASE/config.json
 
@@ -30,19 +31,16 @@ awk -F"[,:}]" '{for(i=1;i<=NF;i++){if($i~/'$KEY'\042/){print $(i+1)}}}' | tr -d 
 }
 
 ## get all user configurations
-if [[ -f $CONFIG_FILE ]]; then
-  echo "$CONTAINER  $CONFIG_FILE found. Loading config..."
+# if [[ -f $CONFIG_FILE ]]; then
+#   echo "$CONTAINER  $CONFIG_FILE found. Loading config..."
 
+#   config_fn="$(cat $CONFIG_FILE | jsonValue config_file)"
 
-  output_fn="$(cat $CONFIG_FILE | jsonValue output_file_name)"
+# else
+#   echo "$CONTAINER  $CONFIG_FILE not found. Using default QC pipeline (v2.1)"
+#   config_fn=v2.1
 
-else
-  echo "$CONTAINER  $CONFIG_FILE not found. Loading defaults from $MANIFEST..."
-
-
-  output_fn="$(cat $MANIFEST | jsonValue output_file_name default)"
-
-fi
+# fi
 
 
 ## Find the input files
@@ -50,6 +48,9 @@ input_im_file=$(find $input_im_DIR/* -maxdepth 0 -type f -name "*.svs*")
 echo "$input_im_file"
 echo "file_name =" $(basename "${input_im_file}")
 
+user_config_file=$(find $config_DIR/* -maxdepth 0 -type f -name "*.ini*")
+echo "$user_config_file"
+echo "config-file =" $(basename "${user_config_file}")
 
 ## If necessary input files are found, run the thing
 if [[ -f $input_im_file ]] ; then
@@ -57,9 +58,19 @@ if [[ -f $input_im_file ]] ; then
   HistoQC_dir=/opt/HistoQC   # path to install (in Docker container)
 
   echo "$CONTAINER  Running HistoQC"
-  python3 -m histoqc -c v2.1 -n 3 "*.svs"
-   
+  if [[ -f $user_config_file ]]; then
+    python3 -m histoqc -c ${user_config_file} -n 3 "*.svs" -o ${OUTPUT_DIR}
+  else
+    python3 -m histoqc -c v2.1 -n 3 "*.svs" -o ${OUTPUT_DIR}
+  fi   
  
+  # zip any output directories for Flywheel container
+  for d in output/* ; do
+    if [[ -d ${d} ]] ; then
+      zip -r ${d}.zip ${d}
+      rm -r ${d}
+    fi
+  done
 
 ################# Finish up #################
   STATUS=$?
