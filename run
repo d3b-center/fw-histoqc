@@ -4,6 +4,8 @@
 #
 #
 
+
+
 CONTAINER="[histoQC]"
 echo -e "$CONTAINER  Initiated"
 
@@ -12,7 +14,7 @@ echo -e "$CONTAINER  Initiated"
 ###############################################################################
 ## Built to flywheel-v0 spec.
 FLYWHEEL_BASE=/flywheel/v0
-OUTPUT_DIR=$FLYWHEEL_BASE/output
+OUTPUT_DIR=$FLYWHEEL_BASE/output_temp
 input_im_DIR=$FLYWHEEL_BASE/input/input_image
 config_DIR=$FLYWHEEL_BASE/input/config
 MANIFEST=$FLYWHEEL_BASE/manifest.json
@@ -47,7 +49,8 @@ awk -F"[,:}]" '{for(i=1;i<=NF;i++){if($i~/'$KEY'\042/){print $(i+1)}}}' | tr -d 
 ## Find the input files
 input_im_file=$(find $input_im_DIR/* -maxdepth 0 -type f -name "*.svs*")
 echo "$input_im_file"
-echo "file_name =" $(basename "${input_im_file}")
+file=$(basename "${input_im_file}")
+echo "$file"
 
 user_config_file=$(find $config_DIR/* -maxdepth 0 -type f -name "*.ini*")
 echo "$user_config_file"
@@ -65,13 +68,15 @@ if [[ -f $input_im_file ]] ; then
     python3 -m histoqc -c v2.1 -n 3 "${input_im_file}" -o ${OUTPUT_DIR}
   fi   
  
-  # zip any output directories for Flywheel container
+   # zip any output directories for Flywheel container
   for d in output/* ; do
     if [[ -d ${d} ]] ; then
       zip -r ${d}.zip ${d}
       rm -r ${d}
     fi
   done
+  
+ 
 
 ################# Finish up #################
   STATUS=$?
@@ -79,6 +84,9 @@ else
   echo "$CONTAINER  Input files not found!"
   exit 1
 fi
+
+
+
 
 # Check exit status
 if [[ $STATUS == 0 ]]
@@ -90,4 +98,10 @@ if [[ $STATUS == 0 ]]
     exit 1
 fi
 
+
+#################create acq and move output####################
+export bashvar=$file
+export output=$OUTPUT_DIR
+my_value=$(python3 create_acq.py)
+echo $my_value
 exit 0

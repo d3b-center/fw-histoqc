@@ -34,3 +34,7 @@ ENV PATH="/opt/HistoQC/venv/bin:$PATH"
 
 WORKDIR /data
 
+# Install main deps
+RUN pip install flywheel-gear-toolkit
+RUN pip install flywheel-sdk
+RUN pip install fw-core-client

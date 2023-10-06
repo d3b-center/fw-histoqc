@@ -6,18 +6,24 @@
   "maintainer": "D3b-TIRU <flywheel@d3b.center>",
   "source": "https://github.com/d3b-center/fw-histoqc", 
   "url":"https://github.com/choosehappy/HistoQC",
-  "version": "0.0.7",
+  "version": "0.2.6",
   "license": "BSD-3-Clause",
   "custom": {
     "gear-builder": {
       "category": "utility",
-      "image": "chop.flywheel.io/histoqc:0.0.7"
+      "image": "chop.flywheel.io/histoqc:0.2.6"
     },
     "flywheel": {
       "suite": "HistoQC"
     }
   },
   "inputs": {
+   
+    "api-key": {
+      "base": "api-key",
+      "read-only": true
+    },
+
     "input_image": {
       "base": "file",
       "description": "Input image (.svs).",
@@ -28,6 +34,7 @@
         ]
       }
     }
+
     },
 
     "config": {
