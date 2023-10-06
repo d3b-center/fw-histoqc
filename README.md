@@ -28,6 +28,8 @@ Config file (.ini)
 3. Build the docker container
 ```
 docker build -t chop.flywheel.io/histoqc:[version#] ./
+Note: To convert to different architecture (example: linux/amd64):
+docker buildx build --platform linux/amd64 -t chop.flywheel.io/histoqc:[version#] ./
 ```
 4. Run gear locally
 ```
