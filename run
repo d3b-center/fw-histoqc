@@ -69,10 +69,11 @@ if [[ -f $input_im_file ]] ; then
   fi   
  
    # zip any output directories for Flywheel container
-  for d in output/* ; do
+  for d in output_temp/* ; do
     if [[ -d ${d} ]] ; then
-      zip -r ${d}.zip ${d}
-      rm -r ${d}
+        echo ${d} 
+        mv ${d}/* ./output_temp
+        rm -r ${d}
     fi
   done
   
