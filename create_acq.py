@@ -25,16 +25,18 @@ ses=fi.lookup(f'{group_name}/{project_label}/{sub_label}/{ses_label}')
 acq_id =get_acq(fi,group_name, project_label,sub_label,ses_label,names)
 print(acq_id)
 rowcount = 0
+
 for row in open(f'/flywheel/v0/output_temp/results.tsv'):
   rowcount+= 1
   if rowcount == 6:
    keys=(row.split('\t'))
   elif rowcount ==7:
    values =(row.split('\t'))
-   for s,b in zip(keys, values):
-      print(f'{s}:{b}') 
-      body=flywheel.models.info_update_input.InfoUpdateInput(set={s:b})
-      fi.modify_acquisition_file_info(acq_id,names,body)
+   new_dict = {keys: values for keys,
+   values in zip(keys, values)}
+   print(new_dict)
+   body = flywheel.models.info_update_input.InfoUpdateInput(set={f'{names}-histoqc':new_dict})
+   fi.modify_acquisition_file_info(acq_id,names,body)
 new_acquisition = ses.add_acquisition(label=f'{names}-histoqc')
 for files in os.listdir(out):
  print(files)
