@@ -66,9 +66,10 @@ if [[ -f $input_im_file ]] ; then
     python3 -m histoqc -c ${user_config_file} -n 3 "${input_im_file}" -o ${OUTPUT_DIR}
   else
     python3 -m histoqc -c v2.1 -n 3 "${input_im_file}" -o ${OUTPUT_DIR}
-  fi   
+  fi
+     
  
-   # zip any output directories for Flywheel container
+   # move output directories to temp for Flywheel container
   for d in output_temp/* ; do
     if [[ -d ${d} ]] ; then
         echo ${d} 
@@ -76,7 +77,12 @@ if [[ -f $input_im_file ]] ; then
         rm -r ${d}
     fi
   done
-  
+  if test -f /flywheel/v0/output_temp/results.tsv; then
+    echo "File exists."
+  else
+    echo $STATUS
+    exit 1
+  fi 
  
 
 ################# Finish up #################
