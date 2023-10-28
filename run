@@ -4,8 +4,6 @@
 #
 #
 
-
-
 CONTAINER="[histoQC]"
 echo -e "$CONTAINER  Initiated"
 
@@ -66,10 +64,9 @@ if [[ -f $input_im_file ]] ; then
     python3 -m histoqc -c ${user_config_file} -n 3 "${input_im_file}" -o ${OUTPUT_DIR}
   else
     python3 -m histoqc -c v2.1 -n 3 "${input_im_file}" -o ${OUTPUT_DIR}
-  fi
-     
+  fi   
  
-   # move output directories to temp for Flywheel container
+  # move output directories to temp for Flywheel container
   for d in output_temp/* ; do
     if [[ -d ${d} ]] ; then
         echo ${d} 
@@ -77,13 +74,14 @@ if [[ -f $input_im_file ]] ; then
         rm -r ${d}
     fi
   done
+
+   # check for results file to check the status
   if test -f /flywheel/v0/output_temp/results.tsv; then
     echo "File exists."
   else
     echo $STATUS
     exit 1
   fi 
- 
 
 ################# Finish up #################
   STATUS=$?
@@ -91,9 +89,6 @@ else
   echo "$CONTAINER  Input files not found!"
   exit 1
 fi
-
-
-
 
 # Check exit status
 if [[ $STATUS == 0 ]]
@@ -105,8 +100,7 @@ if [[ $STATUS == 0 ]]
     exit 1
 fi
 
-
-#################create acq and move output####################
+#################create new acq and move all the output along with the file metadata to slide file####################
 export bashvar=$file
 export output=$OUTPUT_DIR
 my_value=$(python3 create_acq.py)

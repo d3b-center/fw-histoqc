@@ -20,16 +20,17 @@ def get_hierarchy(fw, d):
 
     return hierarchy
 
-def get_acq(fi,group_name, project_label,sub_label,ses_label,names):
+def get_acq(fw,group_name,project_label,sub_label,ses_label,slidename):
 
-  ses=fi.lookup(f'{group_name}/{project_label}/{sub_label}/{ses_label}')
+  ses=fw.lookup(f'{group_name}/{project_label}/{sub_label}/{ses_label}')
   for acq in ses.acquisitions.iter():
     acq_label = acq.label
     acq_id = acq.id
     for file_obj in acq.files:
-        if (file_obj.name==names):
-          print(acq_id)
-    return acq_id
+        if (file_obj.name==slidename):
+          return acq_id
+    
+    
 
   
 
