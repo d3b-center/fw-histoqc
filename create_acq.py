@@ -38,7 +38,7 @@ for row in open(f'/flywheel/v0/output_temp/results.tsv'):
    values =(row.split('\t'))
    new_dict = {keys: values for keys,
    values in zip(keys, values)}
-   body = flywheel.models.info_update_input.InfoUpdateInput(set={f'{slide_file_name} - histoqc':new_dict})
+   body = flywheel.models.info_update_input.InfoUpdateInput(set={'qc':{f'histoqc':new_dict}})
    fw.modify_acquisition_file_info(acq_id, slide_file_name,body)
 
 #create new acq to move all the output files
