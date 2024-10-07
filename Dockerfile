@@ -16,6 +16,7 @@ ENV FLYWHEEL=/flywheel/v0
 RUN mkdir -p ${FLYWHEEL}
 
 COPY HistoQC $FLYWHEEL/
+COPY run $FLYWHEEL/
 COPY *.txt $FLYWHEEL/
 COPY *.py $FLYWHEEL/
 COPY *.sh $FLYWHEEL/
