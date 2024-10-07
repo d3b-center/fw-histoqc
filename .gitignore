@@ -25,3 +25,4 @@ config.json.back
 
 # Misc
 *.svs
+run.sh
