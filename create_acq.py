@@ -45,4 +45,3 @@ for row in open(f'/flywheel/v0/output_temp/results.tsv'):
 new_acquisition = ses.add_acquisition(label=f'{slide_file_name} - histoqc')
 for files in os.listdir(out):
  new_acquisition.upload_file(f'{out}/{files}')
- 

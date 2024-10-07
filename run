@@ -57,7 +57,7 @@ echo "config-file =" $(basename "${user_config_file}")
 ## If necessary input files are found, run the thing
 if [[ -f $input_im_file ]] ; then
 
-  HistoQC_dir=/opt/HistoQC   # path to install (in Docker container)
+  HistoQC_dir=$FLYWHEEL_BASE/HistoQC   # path to install (in Docker container)
 
   echo "$CONTAINER  Running HistoQC"
   if [[ -f $user_config_file ]]; then
@@ -65,7 +65,7 @@ if [[ -f $input_im_file ]] ; then
   else
     python3 -m histoqc -c v2.1 -n 3 "${input_im_file}" -o ${OUTPUT_DIR}
   fi   
- 
+
   # move output directories to temp for Flywheel container
   for d in output_temp/* ; do
     if [[ -d ${d} ]] ; then
@@ -75,9 +75,17 @@ if [[ -f $input_im_file ]] ; then
     fi
   done
 
-   # check for results file to check the status
+  # check for results file to check the status
   if test -f /flywheel/v0/output_temp/results.tsv; then
     echo "File exists."
+
+    # create new acq and move all the output along with the file metadata to slide file
+    export bashvar=$file
+    export output=$OUTPUT_DIR
+    my_value=$(python3 create_acq.py)
+    echo $my_value
+    exit 0
+
   else
     echo $STATUS
     exit 1
@@ -99,10 +107,3 @@ if [[ $STATUS == 0 ]]
     echo "$CONTAINER  command returned a non-zero exit code = [$STATUS]."
     exit 1
 fi
-
-#################create new acq and move all the output along with the file metadata to slide file####################
-export bashvar=$file
-export output=$OUTPUT_DIR
-my_value=$(python3 create_acq.py)
-echo $my_value
-exit 0
